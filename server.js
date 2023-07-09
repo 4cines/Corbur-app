@@ -7,6 +7,12 @@ const fileUpload = require("express-fileupload");
 
 const app = express();
 
+const checkRole = require("./middelwares/checkRole");
+
+const createUserController = require("./controllers/usersController/createUserController");
+const loginUserController = require("./controllers/usersController/loginUserControlles");
+const getAllUsersController = require("./controllers/usersController/getAllUSersController");
+
 //MIDDLEWARES
 
 app.use(cors());
@@ -18,6 +24,21 @@ app.use(fileUpload());
 //CONTROLLERS
 
 //ENDPOINTS
+
+//USERS
+
+//create
+app.post("/users", createUserController);
+
+//login
+app.post("/login", loginUserController);
+
+//get all users
+app.get("/users", checkRole(["admin"]), getAllUsersController);
+
+//update
+
+//delete**(its important?)
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
