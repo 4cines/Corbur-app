@@ -12,6 +12,8 @@ const checkRole = require("./middelwares/checkRole");
 const createUserController = require("./controllers/usersController/createUserController");
 const loginUserController = require("./controllers/usersController/loginUserControlles");
 const getAllUsersController = require("./controllers/usersController/getAllUSersController");
+const authenticateToken = require("./middelwares/isAuth");
+const editUserController = require("./controllers/usersController/editUserController");
 
 //MIDDLEWARES
 
@@ -27,16 +29,19 @@ app.use(fileUpload());
 
 //USERS
 
-//create
-app.post("/users", createUserController);
-
 //login
 app.post("/login", loginUserController);
+
+app.use(authenticateToken);
+
+//create
+app.post("/users", checkRole(["admin"]), createUserController);
 
 //get all users
 app.get("/users", checkRole(["admin"]), getAllUsersController);
 
 //update
+app.put("/users", checkRole(["admin"]), editUserController);
 
 //delete**(its important?)
 

@@ -7,7 +7,11 @@ const insertUserQuery = async (name, password, rol) => {
   try {
     connection = await getDB();
 
-    let [users] = await connection.query(`SELECT * FROM users`);
+    let [users] = await connection.query(`SELECT * FROM users WHERE name = ?`, [
+      name,
+    ]);
+
+    console.log("******users", users);
 
     if (users.length !== 0) {
       return generateError(`El usuario ${name} ya existe.`);

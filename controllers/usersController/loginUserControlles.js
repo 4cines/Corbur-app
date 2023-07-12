@@ -13,15 +13,13 @@ const loginUserController = async (req, res, next) => {
       generateError("Debe ingresar un nombre y una contraseña");
     }
 
-    const user = await selectUserQuery(userName);
+    const [user] = await selectUserQuery(userName);
 
     if (user.length === 0) {
       generateError("No existe el/la usuario/a", 401);
     }
 
-    console.log("******", user);
-
-    const validPassword = await bcrypt.compare(password, user[0].password);
+    const validPassword = await bcrypt.compare(password, user.password);
 
     if (!validPassword) {
       generateError("Contraseña incorrecta", 401);
@@ -29,6 +27,8 @@ const loginUserController = async (req, res, next) => {
 
     const userInfo = {
       id: user.id,
+      name: user.name,
+      role: user.rol,
     };
 
     const token = jwt.sign(userInfo, process.env.SECRET, {

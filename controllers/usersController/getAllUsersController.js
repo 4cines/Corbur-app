@@ -1,5 +1,7 @@
 const { generateError } = require("../../helpers");
 
+const selectAllUsersQuery = require("../../db/querys/usersQueries/selectAllUsersQuery");
+
 const getAllUsersController = async (req, res, next) => {
   try {
     const users = await selectAllUsersQuery();
