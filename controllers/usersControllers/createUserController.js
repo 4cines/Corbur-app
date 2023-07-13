@@ -3,6 +3,7 @@ const insertUserQuery = require("../../db/querys/usersQueries/insertUserQuery");
 const bcrypt = require("bcrypt");
 
 const { generateError } = require("../../helpers");
+const selecAlltUsersQuery = require("../../db/querys/usersQueries/selectAllUsersQuery");
 
 const createUserController = async (req, res, next) => {
   try {
@@ -10,6 +11,12 @@ const createUserController = async (req, res, next) => {
 
     if (!userName || !password || !rol) {
       generateError("Debe ingresar un nombre, una contraseña y el rol");
+    }
+
+    const usersData = await selecAlltUsersQuery();
+
+    if (usersData.find((user) => user.name === userName)) {
+      return generateError(`El usuario/a ${userName} ya existe.`);
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);

@@ -1,9 +1,11 @@
+const { generateError } = require("../helpers");
+
 const checkRole = (roles) => {
   return (req, res, next) => {
     if (roles.includes(req.user.role)) {
       next();
     } else {
-      next(err);
+      generateError("Acceso denegado", 401);
     }
   };
 };

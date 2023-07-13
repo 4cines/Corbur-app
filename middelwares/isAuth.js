@@ -17,7 +17,6 @@ const isAuth = async (req, res, next) => {
       console.error(err);
       generateError("Token incorrecto", 401);
     }
-    console.dir("********", userInfo);
     req.user = userInfo;
 
     next();

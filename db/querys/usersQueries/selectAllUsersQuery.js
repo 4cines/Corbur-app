@@ -1,13 +1,13 @@
 const getDB = require("../../getDB");
 const { generateError } = require("../../../helpers");
 
-const selecAlltUsersQuery = async (userName) => {
+const selecAlltUsersQuery = async () => {
   let connection;
 
   try {
     connection = await getDB();
 
-    const [users] = await connection.query(`SELECT * FROM users`, [userName]);
+    const [users] = await connection.query(`SELECT * FROM users`);
 
     return users;
   } finally {

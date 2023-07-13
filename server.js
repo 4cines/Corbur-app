@@ -9,11 +9,14 @@ const app = express();
 
 const checkRole = require("./middelwares/checkRole");
 
-const createUserController = require("./controllers/usersController/createUserController");
-const loginUserController = require("./controllers/usersController/loginUserControlles");
-const getAllUsersController = require("./controllers/usersController/getAllUSersController");
+const createUserController = require("./controllers/usersControllers/createUserController");
+const loginUserController = require("./controllers/usersControllers/loginUserController");
+const getAllUsersController = require("./controllers/usersControllers/getAllUSersController");
 const authenticateToken = require("./middelwares/isAuth");
-const editUserController = require("./controllers/usersController/editUserController");
+const editUserController = require("./controllers/usersControllers/editUserController");
+const createCostumerController = require("./controllers/costumersControllers/createCostumerController");
+const getAllCostumersController = require("./controllers/costumersControllers/getAllCostumersController");
+const editCostumerController = require("./controllers/costumersControllers/editCostumerController");
 
 //MIDDLEWARES
 
@@ -29,25 +32,33 @@ app.use(fileUpload());
 
 //USERS
 
-//login
 app.post("/login", loginUserController);
 
 app.use(authenticateToken);
 
-//create
 app.post("/users", checkRole(["admin"]), createUserController);
 
-//get all users
 app.get("/users", checkRole(["admin"]), getAllUsersController);
 
-//update
-app.put("/users", checkRole(["admin"]), editUserController);
+app.put("/users/:id", checkRole(["admin"]), editUserController);
 
 //delete**(its important?)
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+//WORKERS
+
+app.post("/employees", checkRole(["admin"]));
+
+//COSTUMERS
+
+app.post("/costumer", checkRole(["admin"]), createCostumerController);
+
+app.get(
+  "/costumers",
+  checkRole(["admin", "employee"]),
+  getAllCostumersController
+);
+
+app.put("/costumers/:id", checkRole(["admin"]), editCostumerController);
 
 //ERROR MIDDLEWARE
 
