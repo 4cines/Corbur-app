@@ -12,11 +12,22 @@ const checkRole = require("./middelwares/checkRole");
 const createUserController = require("./controllers/usersControllers/createUserController");
 const loginUserController = require("./controllers/usersControllers/loginUserController");
 const getAllUsersController = require("./controllers/usersControllers/getAllUSersController");
-const authenticateToken = require("./middelwares/isAuth");
 const editUserController = require("./controllers/usersControllers/editUserController");
+
+const authenticateToken = require("./middelwares/isAuth");
+
 const createCostumerController = require("./controllers/costumersControllers/createCostumerController");
 const getAllCostumersController = require("./controllers/costumersControllers/getAllCostumersController");
 const editCostumerController = require("./controllers/costumersControllers/editCostumerController");
+const getOnlyCostumerController = require("./controllers/costumersControllers/getOnlyCostumerController");
+
+const createEmployeeController = require("./controllers/employeesControllers/createEmployeeController");
+const getAllEmployeesController = require("./controllers/employeesControllers/getAllEmployeesController");
+const getOnlyEmployeesController = require("./controllers/employeesControllers/getOnlyEmployeesController");
+const editEmployeeController = require("./controllers/employeesControllers/editEmployeeController");
+const createWorkplaceController = require("./controllers/workplaceController/createWorkplaceController");
+const getAllWorkplacesController = require("./controllers/workplaceController/getAllWorkplacesController");
+const getOnlyWorkplacesController = require("./controllers/workplaceController/getOnlyWorkplaceController");
 
 //MIDDLEWARES
 
@@ -31,34 +42,46 @@ app.use(fileUpload());
 //ENDPOINTS
 
 //USERS
-
 app.post("/login", loginUserController);
 
 app.use(authenticateToken);
-
 app.post("/users", checkRole(["admin"]), createUserController);
-
 app.get("/users", checkRole(["admin"]), getAllUsersController);
-
 app.put("/users/:id", checkRole(["admin"]), editUserController);
-
 //delete**(its important?)
 
-//WORKERS
-
-app.post("/employees", checkRole(["admin"]));
+//EMPLOYEES
+app.post("/employees", checkRole(["admin"]), createEmployeeController);
+app.get("/employees", checkRole(["admin"]), getAllEmployeesController);
+app.get("/employees/:id", checkRole(["admin"]), getOnlyEmployeesController);
+app.put("/employees/:id", checkRole(["admin"]), editEmployeeController);
 
 //COSTUMERS
-
 app.post("/costumer", checkRole(["admin"]), createCostumerController);
-
 app.get(
   "/costumers",
   checkRole(["admin", "employee"]),
   getAllCostumersController
 );
-
+app.get(
+  "/costumers/:id",
+  checkRole(["admin", "employee"]),
+  getOnlyCostumerController
+);
 app.put("/costumers/:id", checkRole(["admin"]), editCostumerController);
+
+//WORKPLACES
+app.post("/workplaces", checkRole(["admin"]), createWorkplaceController);
+app.get(
+  "/workplaces",
+  checkRole(["admin", "employee"]),
+  getAllWorkplacesController
+);
+app.get(
+  "/workplaces/:id",
+  checkRole(["admin", "employee"]),
+  getOnlyWorkplacesController
+);
 
 //ERROR MIDDLEWARE
 
