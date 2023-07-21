@@ -37,7 +37,7 @@ const loginUserController = async (req, res, next) => {
 
     res.send({
       status: 200,
-      message: token,
+      token: token,
     });
   } catch (err) {
     next(err);
