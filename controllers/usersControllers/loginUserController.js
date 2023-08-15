@@ -10,7 +10,7 @@ const loginUserController = async (req, res, next) => {
     const { userName, password } = req.body;
 
     if (!userName || !password) {
-      generateError("Debe ingresar un nombre y una contraseña");
+      generateError("Has d'ingressar un usuari i una contraseña");
     }
 
     const [user] = await selectUserQuery(userName);

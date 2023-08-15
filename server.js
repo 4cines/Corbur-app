@@ -57,7 +57,7 @@ app.get("/employees/:id", checkRole(["admin"]), getOnlyEmployeesController);
 app.put("/employees/:id", checkRole(["admin"]), editEmployeeController);
 
 //COSTUMERS
-app.post("/costumer", checkRole(["admin"]), createCostumerController);
+app.post("/costumers", checkRole(["admin"]), createCostumerController);
 app.get(
   "/costumers",
   checkRole(["admin", "employee"]),
