@@ -28,6 +28,7 @@ const editEmployeeController = require("./controllers/employeesControllers/editE
 const createWorkplaceController = require("./controllers/workplaceController/createWorkplaceController");
 const getAllWorkplacesController = require("./controllers/workplaceController/getAllWorkplacesController");
 const getOnlyWorkplacesController = require("./controllers/workplaceController/getOnlyWorkplaceController");
+const getOnlyUserController = require("./controllers/usersControllers/getOnlyUserController");
 
 //MIDDLEWARES
 
@@ -47,6 +48,7 @@ app.post("/login", loginUserController);
 app.use(authenticateToken);
 app.post("/users", checkRole(["admin"]), createUserController);
 app.get("/users", checkRole(["admin"]), getAllUsersController);
+app.get("/users/info", checkRole(["admin", "employee"]), getOnlyUserController);
 app.put("/users/:id", checkRole(["admin"]), editUserController);
 //delete**(its important?)
 
