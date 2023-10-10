@@ -11,7 +11,6 @@ const insertUserQuery = async (name, password, rol) => {
       name,
     ]);
 
-    console.log("******users", users);
 
     if (users.length !== 0) {
       return generateError(`El usuario ${name} ya existe.`);
